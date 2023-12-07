@@ -7,7 +7,7 @@ import { v4 as uuid4 } from "uuid";
 import Loading from "./components/Loading";
 import { enqueueSnackbar } from "notistack";
 import LayoutWrapper from "./components/LayoutWrapper";
-
+import axios from "axios";
 interface ItemsList {
   id: string;
   password: string;
@@ -28,10 +28,26 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [savedBoolean, setSavedBoolean] = useState<boolean>(false);
   const [storageSaved, setStorageSaved] = useState();
+  const [user, setUser] = useState<any>({});
+
   //? Only to close the Dialog!
   const closeDialog = () => {
     setOpenFormDialog(false);
   };
+
+  const getUser = async () => {
+    try {
+      const url = `${import.meta.env.VITE_REACT_APP_API_URL}/api/login/success`;
+      const { data } = await axios.get(url, { withCredentials: true });
+      setUser(data.user._json);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   useEffect(() => {
     const ItemListAry = JSON.parse(
@@ -91,6 +107,7 @@ function App() {
   const handelGenButton = () => {
     setSavedBoolean(false);
     setOpenFormDialog((prevState: boolean) => !prevState);
+    console.log(user);
   };
 
   return (

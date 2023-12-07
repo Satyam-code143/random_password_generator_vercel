@@ -1,12 +1,10 @@
-import { enqueueSnackbar } from "notistack";
-
 export default function NavHeader() {
   const signInAction = () => {
     // Get the logic for t he google signUp work here
-    enqueueSnackbar("Coming Soon!!", {
-      autoHideDuration: 3000,
-      anchorOrigin: { horizontal: "center", vertical: "top" },
-    });
+    window.open(
+      `${import.meta.env.VITE_REACT_APP_API_URL}/api/google/callback`,
+      "_self"
+    );
   };
 
   return (
